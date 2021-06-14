@@ -91,6 +91,8 @@ class Dates_Symptoms {
 
     async order_Data_By_Day(symptom, month) {
 
+        month =4;
+
         var collection = user_DB_class.database.collection('application_database');
         var user_doc = collection.doc(user_DB_class.username);
         var user_doc_collection = user_doc.collection(`${user_DB_class.username}_symptoms`);
