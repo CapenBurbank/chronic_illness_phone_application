@@ -160,6 +160,7 @@ and a section for additional notes you'd like to add to that day to use when ana
 
 And after submitting that payload of data, you will be greeted with a confirmation message that also lets you know  
 that it hopes you feel better
+<br>
 ![symptomlog8](./Github_phone_app_screenshots/symptomlog8.jpg)
 
 
