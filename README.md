@@ -107,6 +107,16 @@ here we can see custome pressable icons allowing us:
 <br>
 <br>
 
+Settings Screen accessed through bottom tab navigation once logged in     
+*Functionality of settings screen has not yet been implemented, only visually implemented for now*
+
+<br>
+
+![settings11](./Github_phone_app_screenshots/settings1.jpg)
+
+<br>
+<br>
+
 Modal for logging your symptoms.  
 Over the next few pictures,  
 you will see different tabs render different lists of symptoms:  
@@ -210,12 +220,7 @@ with their own unique data including:
 <br>
 <br>
 
-Finally we have our settings screen    
-*Functionality of settings screen has not yet been implemented, only visually implemented for now*
 
-<br>
-
-![settings11](./Github_phone_app_screenshots/settings1.jpg)
 
 
 
