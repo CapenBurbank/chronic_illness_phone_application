@@ -40,6 +40,8 @@ npm dependencies include:
     
 To run the application yourself you will need expo-cli installed on your computer as well as downloading the expo-go mobile app for your android device  
 https://docs.expo.io/get-started/create-a-new-app/
+  
+Login Page
 ![login1](./Github_phone_app_screenshots/login1.jpg)  
   
 Login Authentication  
