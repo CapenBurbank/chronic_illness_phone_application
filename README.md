@@ -107,7 +107,7 @@ here we can see custome pressable icons allowing us:
 <br>
 <br>
 
-Modal for logging yout symptoms.  
+Modal for logging your symptoms.  
 Over the next few pictures,  
 you will see different tabs render different lists of symptoms:  
 -custom: symptoms you've logged before  
@@ -159,9 +159,71 @@ and a section for additional notes you'd like to add to that day to use when ana
 <br>
 
 And after submitting that payload of data, you will be greeted with a confirmation message that also lets you know  
-that it hopes you feel better
+that it hopes you feel better :)
 <br>
 ![symptomlog8](./Github_phone_app_screenshots/symptomlog8.jpg)
+
+<br>
+<br>
+
+Initial look at data analysis page, you can reach this page  
+by hitting the touchale icon Analyze on the Home screen  
+or by clicking touching the Analyze tab choice located at the bottom of the screen once loaded into the app.
+You will notice that our graph right now is only displaying a sample of useless data for show
+<br>
+![data1](./Github_phone_app_screenshots/data1.jpg)
+
+<br>
+<br>
+
+However when we press "Pick A symptom to Track"  
+We have another modal, built similarly to our previous list modal  
+however this one will only render symptoms that you have logged, as you can't analyze data if it doesn't exist  
+We have also implemented the same search/render feature as shown in our previous modal lists.
+<br>
+![data2](./Github_phone_app_screenshots/data2.jpg)
+![data3](./Github_phone_app_screenshots/data3.jpg)
+
+<br>
+<br>
+
+Upon choosing a symptom to track, (please keep in mind that this is currently only in month view for the chart)  
+You will have a confirmation message, and your data, for that specific month, tracking that specific symptom  
+will chronologically organize your data  
+update the chart to match your new dataset  
+and if you have logged a symptom more than once a day  
+the graph will display an average  
+but after touching that data point  
+you will be given a lists of times you logged that symptom on that day  
+with their own unique data including:  
+-severity  
+-notes  
+-exact time(to be implemented later)  
+
+<br>
+
+![data4](./Github_phone_app_screenshots/data4.jpg)
+![data5](./Github_phone_app_screenshots/data5.jpg)
+![data6](./Github_phone_app_screenshots/data6.jpg)
+![data7](./Github_phone_app_screenshots/data7.jpg)
+
+<br>
+<br>
+
+Finally we have our settings screen    
+*Functionality of settings screen has not yet been implemented, only visually implemented for now*
+
+<br>
+
+![settings11](./Github_phone_app_screenshots/settings1.jpg)
+
+
+
+
+
+
+
+
 
 
 
