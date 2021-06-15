@@ -10,7 +10,7 @@ As of 6/14/2021 the project is written entirely usign Javascript/ React/ and Rea
 The Database of choice is a noSQL using google's Cloud Firestore
 
 npm dependencies include:
-"@expo/ngrok": 2.4.3,
+"@expo/ngrok": 2.4.3,                                                                                                                                                                                                             
 "@expo/vector-icons": 12.0.0,
 "@ptomasroos/react-native-multi-slider": 2.2.2, 
 "@react-native-community/slider": 3.0.3, 
