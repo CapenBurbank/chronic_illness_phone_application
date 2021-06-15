@@ -10,10 +10,10 @@ As of 6/14/2021 the project is written entirely usign Javascript/ React/ and Rea
 The Database of choice is a noSQL using google's Cloud Firestore
 
 npm dependencies include:
-    "@expo/ngrok": 2.4.3,
-    "@expo/vector-icons": 12.0.0,
-    "@ptomasroos/react-native-multi-slider": 2.2.2,
-    "@react-native-community/slider": 3.0.3,
+    "@expo/ngrok": 2.4.3,\n
+    "@expo/vector-icons": 12.0.0,\n
+    "@ptomasroos/react-native-multi-slider": 2.2.2, \n
+    "@react-native-community/slider": 3.0.3, \n
     "@react-native-firebase/app": 11.3.3,
     "@react-navigation/bottom-tabs": 5.11.10,
     "@react-navigation/native": 5.9.4,
@@ -39,6 +39,8 @@ npm dependencies include:
     "redux": 4.1.0
     
 To run the application yourself you will need expo-cli installed on your computer as well as downloading the expo-go mobile app for your android device
+https://docs.expo.io/get-started/create-a-new-app/
+
 
 
 
