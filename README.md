@@ -43,14 +43,50 @@ https://docs.expo.io/get-started/create-a-new-app/
 
 Login Screen Upon initial loading  
 ![login1](./Github_phone_app_screenshots/login1.jpg) 
- 
+
+<br>
+<br>
   
 Login Authentication  
 ![login3](./Github_phone_app_screenshots/login3.jpg)  
+
+<br>
+<br>
   
 Sign up Screen  
-![signup1](./Github_phone_app_screenshots/signup1.jpg)  
+Using asynchronous noSQL queries and updating immediately to UI to verify if a username is available  
+![signup1](./Github_phone_app_screenshots/signup1.jpg)    
   
+<br>
+<br>
 
+Sign up Screen    
+Using asynchronous noSQL queries and updating immediately to UI to verify if a username is available    
+![signup2](./Github_phone_app_screenshots/signup2.jpg)  
+
+<br>
+<br>
+
+Sign up Screen    
+Validation on password formatting seen here and in the following picture going from password length of 5, to length of 6  
+![signup3](./Github_phone_app_screenshots/signup3.jpg)  
+
+<br>
+<br>
+ 
+![signup4](./Github_phone_app_screenshots/signup4.jpg)  
+
+<br>
+<br>
+
+Once username and password have been verified,  
+noSQL query executed  
+you are given user feedback to confirm your account was created  
+and immediately re-directed back to the login screen to login  
+as observed in the 2 following pictures  
+![signup5](./Github_phone_app_screenshots/signup5.jpg)
+<br>
+<br>
+![login2](./Github_phone_app_screenshots/login2.jpg)
 
 
