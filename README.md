@@ -85,8 +85,85 @@ you are given user feedback to confirm your account was created
 and immediately re-directed back to the login screen to login  
 as observed in the 2 following pictures  
 ![signup5](./Github_phone_app_screenshots/signup5.jpg)
+
 <br>
 <br>
+
 ![login2](./Github_phone_app_screenshots/login2.jpg)
+
+<br>
+<br>
+<br>
+
+After authentication is complete  
+you will load into the home page of the profile  
+here we can see custome pressable icons allowing us:  
+-log any symptoms we are experiencing  
+-analyze our symptom data  
+-go to our journal(not yet implemented)  
+-go to the community(not yet implemented) 
+![profile1](./Github_phone_app_screenshots/profile1.jpg)  
+
+<br>
+<br>
+
+Modal for logging yout symptoms.  
+Over the next few pictures,  
+you will see different tabs render different lists of symptoms:  
+-custom: symptoms you've logged before  
+-common: example symptoms that you could log  
+-frequent: most recently logged symptoms from custom list(not yet implemented)  
+-new: text input to add a brand new symptom if needed  
+
+![symptomlog1](./Github_phone_app_screenshots/symptomlog1.jpg)
+
+<br>
+<br>
+
+![symptomlog2](./Github_phone_app_screenshots/symptomlog2.jpg)
+
+<br>
+<br>
+
+![symptomlog5](./Github_phone_app_screenshots/symptomlog5.jpg)
+
+When using our search bar located at the top of the modal,  
+you will notice that lists begin to re-render data as soon as there is value in the text input field  
+
+![symptomlog3](./Github_phone_app_screenshots/symptomlog3.jpg)
+
+<br>
+<br>
+
+![symptomlog4](./Github_phone_app_screenshots/symptomlog4.jpg)
+
+<br>
+<br>
+
+After choosing a symptom  
+You will be prompted with another modal  
+where your chosen symptom will appear at the top  
+the date will autofill to the current date in format mm/dd/yyyy  
+you will have a sliding scale to indicate on a severity of 1 through 10 how bad your symptom was  
+and a section for additional notes you'd like to add to that day to use when analyzing your data  
+ 
+![symptomlog6](./Github_phone_app_screenshots/symptomlog6.jpg)
+
+<br>
+<br>
+
+![symptomlog7](./Github_phone_app_screenshots/symptomlog7.jpg)
+
+<br>
+<br>
+<br>
+
+And after submitting that payload of data, you will be greeted with a confirmation message that also lets you know  
+that it hopes you feel better
+![symptomlog8](./Github_phone_app_screenshots/symptomlog8.jpg)
+
+
+
+
 
 
