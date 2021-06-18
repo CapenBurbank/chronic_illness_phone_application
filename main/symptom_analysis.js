@@ -65,19 +65,20 @@ function renderSymptomObject(object) {
             ]}
             onPress={()=> {
                 // not yet implemented
+                Alert.alert('Additional Notes:',notes)
             }}>
 
                 <View
                     style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    width: Dimensions.get('screen').width,
-                    borderColor: 'gray',
-                    borderTopWidth: 0,
-                    borderLeftWidth: BW,
-                    borderRightWidth: BW,
-                    borderBottomWidth: BW,
-                    backgroundColor: 'teal',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        width: Dimensions.get('screen').width,
+                        borderColor: 'gray',
+                        borderTopWidth: 0,
+                        borderLeftWidth: BW,
+                        borderRightWidth: BW,
+                        borderBottomWidth: BW,
+                        backgroundColor: 'teal',
                             
                     }}
                     >         
@@ -125,9 +126,10 @@ function renderSymptomObject(object) {
                                 style={{
                                     fontSize: 18,
                                     alignSelf: 'flex-start',
-                                    paddingLeft: 15
+                                    paddingLeft: 15,
                                 }}>
-                                Severity: {object.severity}
+                                <Text style={{fontWeight: 'bold'}}>Severity: </Text> 
+                                {object.severity}
                             </Text>
                         </View>
 
@@ -141,11 +143,12 @@ function renderSymptomObject(object) {
                                 style={{
                                     fontSize: 15,
                                     paddingLeft: 15,
-                                    width: Dimensions.get('screen').width/2
+                                    width: Dimensions.get('screen').width/1.25
                                 }}
                                 numberOfLines={1}
                                 >
-                                {object.additional_notes}...
+                                <Text style={{fontWeight: 'bold'}}>Additional Notes: </Text>
+                                {object.additional_notes}{object.additional_notes != "" && '...'}{object.additional_notes == "" && 'N/A'}  
                             </Text>
 
                         </View>
@@ -170,6 +173,58 @@ function renderSymptomObject(object) {
     )
 }
 
+const monthArray = [
+    {
+        value: 1,
+        name: 'January'
+    },
+    {
+        value: 2,
+        name: 'February'
+    },
+    {
+        value: 3,
+        name: 'March'
+    },
+    {
+        value: 4,
+        name: 'April'
+    },
+    {
+        value: 5,
+        name: 'May'
+    },
+    {
+        value: 6,
+        name: 'June'
+    },
+    {
+        value: 7,
+        name: 'July'
+    },
+    {
+        value: 8,
+        name: 'August'
+    },
+    {
+        value: 9,
+        name: 'September'
+    },
+    {
+        value: 10,
+        name: 'October'
+    },
+    {
+        value: 11,
+        name: 'November'
+    },
+    {
+        value: 12,
+        name: 'December'
+    },
+
+]
+
 export default class Symptom_Analysis extends React.Component {
     constructor(props) {
         super(props);
@@ -178,12 +233,14 @@ export default class Symptom_Analysis extends React.Component {
             currentDayChart: false,
             currentYearChart: false,
             modalSymptomList: false,
+            modalMonthPicker: false,
             dataPointClickModal: false,
             my_Symptoms: sampleList,
             crossReferenceList: [],
             my_Symptoms_List: true,
             daySelected: undefined,
             search: 'Search...',
+            monthChosenForRender: 0,
             data: {
                 labels: [],
                 datasets: [
@@ -271,6 +328,8 @@ export default class Symptom_Analysis extends React.Component {
             crossReferenceList: []
         })
 
+        
+
         const condenseList = async () => {
 
             var prevDay;
@@ -316,7 +375,6 @@ export default class Symptom_Analysis extends React.Component {
      */
 
     renderMultipleSymptomObjects() {
-
         var objectArray = userDate_And_Symptom_Handler.symptom_array.filter(object => object.day == this.state.daySelected);
         return objectArray;
     }
@@ -342,10 +400,10 @@ export default class Symptom_Analysis extends React.Component {
      * @returns string month based on array of months using month param as an index
      */
 
-    formatGraphLabel(month) {
+    formatGraphLabel() {
         const months = [
             'January',
-            'February',
+            'February', 
             'March',
             'April',
             'May',
@@ -358,7 +416,19 @@ export default class Symptom_Analysis extends React.Component {
             'December'
         ];
 
-        return `${months[month-1]}, 2021`
+        return `${months[this.state.monthChosenForRender - 1]}, 2021`
+    }
+
+    renderModalMonthPicker(bool) {
+        this.setState({
+            modalMonthPicker: bool
+        })
+    }
+
+    chooseMonthForRender(month) {
+        this.setState({
+            monthChosenForRender: month
+        })
     }
 
     render() {
@@ -441,7 +511,7 @@ export default class Symptom_Analysis extends React.Component {
                                         alignSelf: 'center'
                                     }}
                                     >
-                                    {this.formatGraphLabel(8)}
+                                    {this.formatGraphLabel()}
                                 </Text>
 
                                 
@@ -467,169 +537,250 @@ export default class Symptom_Analysis extends React.Component {
 
                     </View>
 
-                    <Modal 
-                            onRequestClose={()=>{
-                                this.closeSymptomList();
+                    <Modal
+                        onRequestClose={()=> {
+                            this.renderModalMonthPicker(false);
+                        }}
+                        visible={this.state.modalMonthPicker}
+                        >
+                        <View
+                            style={{
+                                width: Dimensions.get('screen').width,
+                                height: 25,
+                                backgroundColor: 'teal',
+                                flexDirection: 'row',
+                                justifyContent: 'center'
                             }}
-                            animationType='slide'
-                            visible={this.state.modalSymptomList}
-                            transparent={true}
                             >
-                                <KeyboardAvoidingView
-                                    behavior='height'
-                                    style={{
-                                        backgroundColor: 'teal',
-                                    
-                                    }}>
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: 'white'
+                                }}
+                                >
+                                {userDate_And_Symptom_Handler.symptom}
+                            </Text>
+                        </View>
 
+                        <FlatList 
+                            style={[,
+                                {
+                                    width: Dimensions.get('screen').width,
+                                    height: Dimensions.get('screen').height
+                                }
+                            ]}
+                            data={monthArray}
+                            renderItem={({item})=> {
+                                return(
+                                    <Pressable 
+                                        style={({pressed}) => [
+                                            {
+                                                opacity: pressed ? 0.3 : 1,
+                                                backgroundColor: pressed ? 'cadetblue' : 'white'
+                                            },
+                                            {
+                                               
+                                            }
+                                        ]}
+                                        onPress={()=> {
+                                            this.chooseMonthForRender(item.value);
+                                            userDate_And_Symptom_Handler.order_Data_By_Day(userDate_And_Symptom_Handler.symptom, item.value)
+                                                .then(()=> {
+                                                    this.adjustData_MonthView();
+                                                    this.closeSymptomList();
+                                                    this.renderModalMonthPicker(false);
+                                                    Alert.alert('Rendering chart data for', `${userDate_And_Symptom_Handler.symptom}, in ${item.name}`);
+                                                })
+                                                .catch(()=> {
+
+                                                })
+                                        }}
+                                        >
+                                        <Text
+                                            style={styles.list}
+                                            >
+                                            {item.name}
+                                        </Text>
+
+                                    </Pressable>
+                                )
+                            }}
+                            />
+                        <Pressable
+                            style={({pressed})=> [
+                                {
+                                    opacity: pressed ? 0.3 : 1
+                                },
+                                {
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    padding: 30,
+                                }
+                            ]}
+                            onPress={()=> {
+                                this.renderModalMonthPicker(false)
+                            }}
+                            >
+                            <Ionicons name='arrow-back' size={100} color='teal' />
+                        </Pressable>
+                    
+                    </Modal>
+
+                    <Modal 
+                        onRequestClose={()=>{
+                            this.closeSymptomList();
+                        }}
+                        animationType='slide'
+                        visible={this.state.modalSymptomList}
+                        transparent={true}
+                        >
+                            <KeyboardAvoidingView
+                                behavior='height'
+                                style={{
+                                    backgroundColor: 'teal',
+                                
+                                }}>
+
+                                    <View
+                                        style={{
+                                            flexDirection: 'row-reverse',
+                                            justifyContent: 'flex-start'
+
+                                        }}>
+                                    
+                                        <Pressable
+                                            style={(({pressed})=> [
+                                                {
+                                                    opacity: pressed ? 0.3 : 1
+                                                },
+                                                {
+                                                    backgroundColor: 'rgba(255,255,255, 0.19)',
+                                                    borderRadius: 15,
+                                                    padding: 5
+                                                }
+                                            ])}
+                                            onPress={()=>{
+                                                this.closeSymptomList();
+                                            }}>
+                                            <Ionicons size={40} name='close-circle-outline' color='white' />
+
+                                        </Pressable>
+                                    </View>
+                            
+                                    <Text 
+                                        style={{
+                                            textAlign: 'center',
+                                            
+                                            paddingTop: 0,
+                                            paddingBottom: 15,
+                                            fontSize: 20,
+                                            color: 'white'
+                                        }}>
+                                        Symptoms
+                                    </Text>
                                         <View
                                             style={{
-                                                flexDirection: 'row-reverse',
-                                                justifyContent: 'flex-start'
-
-                                            }}>
-                                        
-                                            <Pressable
-                                                style={(({pressed})=> [
-                                                    {
-                                                        opacity: pressed ? 0.3 : 1
-                                                    },
-                                                    {
-                                                        backgroundColor: 'rgba(255,255,255, 0.19)',
-                                                        borderRadius: 15,
-                                                        padding: 5
-                                                    }
-                                                ])}
-                                                onPress={()=>{
-                                                    this.closeSymptomList();
-                                                }}>
-                                                <Ionicons size={40} name='close-circle-outline' color='white' />
-
-                                            </Pressable>
-                                        </View>
-                                
-                                        <Text 
-                                            style={{
-                                                textAlign: 'center',
-                                                
-                                                paddingTop: 0,
-                                                paddingBottom: 15,
-                                                fontSize: 20,
-                                                color: 'white'
-                                            }}>
-                                            Symptoms
-                                        </Text>
-                                            <View
-                                                style={{
-                                                    paddingBottom: 10,
+                                                paddingBottom: 10,
+                                            }}
+                                        >
+                                            <TextInput 
+                                                style={[styles.input, {
+                                                    width: Dimensions.get('screen').width -15,
+                                                    padding: 5,
+                                                    textAlign: 'left',
+                                                }]}
+                                                value={this.state.search}
+                                                onChangeText={(text)=>{
+                                                    this.setState({
+                                                        search: text,
+                                                    })
+                                                    this.filterSymptoms(text)
                                                 }}
-                                            >
-                                                <TextInput 
-                                                    style={[styles.input, {
-                                                        width: Dimensions.get('screen').width -15,
-                                                        padding: 5,
-                                                        textAlign: 'left',
-                                                    }]}
-                                                    value={this.state.search}
-                                                    onChangeText={(text)=>{
+                                                onBlur={()=> {
+                                                    setTimeout(()=> {
                                                         this.setState({
-                                                            search: text,
-                                                        })
-                                                        this.filterSymptoms(text)
-                                                    }}
-                                                    onBlur={()=> {
-                                                        setTimeout(()=> {
-                                                            this.setState({
-                                                                search: 'Search...',
-                                                            }) 
-                                                        }, 200)
-                                                         
-                                                    }}
-                                                    onFocus={()=>{
-                                                        this.setState({
-                                                            search: "",
-                                                            my_Symptoms: sampleList
-                                                        })
-                                                    }}
-                                                    ref={input => this.input = input}
-                                            />
-                                            </View>
-                                            
-                                            <Text>
-                                                <ScrollableTabView
-                                                    style={{ 
-                                                        marginTop: 20,
-                                                        width: (Dimensions.get('screen').width),
-                                                        borderWidth: 0,
-                                                    }}
-                                                    onChangeTab={({i,ref}) => {
-                                                        // only one tab currently no need for logic yet, 
-                                                        // will implement a frquent list then conditional rendering in future
-                                                       
-                                                    }}
-                                                    tabBarUnderlineStyle={{
-                                                        backgroundColor: 'white',
-                                                    }}
-                                                    tabBarBackgroundColor="teal"
-                                                    tabBarActiveTextColor="white"
-                                                    tabBarTextStyle={{
-                                                        borderColor: 'teal'
-                                                    }}
-                                                    renderTabBar={() => 
-                                                        <DefaultTabBar 
-                                                            style={{
-                                                                borderWidth: 0,
-                                                                borderColor: '#00000000',
-                                                            }}      
-                                                            />
-                                                    }
-                                                >
-                                                    <Text tabLabel='My Logged Symptoms'></Text>
-                                                    
-                                                </ScrollableTabView>;
-                                            </Text>
-                                        
-                                        { this.state.my_Symptoms_List &&
-                                            <FlatList
-                                                data={this.state.my_Symptoms}
-                                                style={{
-                                                    height: Dimensions.get('screen').height/1.5
-                                                }}
-                                                renderItem={ ({item}) => {
-                                                    return(
-                                                        <Pressable
-                                                            style={({pressed}) => [
-                                                                {
-                                                                    backgroundColor: pressed ? 'red' : 'white',
-                                                                    opacity: pressed ? 0.1 : 1,
-                                                                    color: pressed ? 'white' : 'black',          
-                                                                },
-                                                            ]}
-                                                            onPress={()=> {
-                                                                userDate_And_Symptom_Handler.symptom = item.key;
-                                                                userDate_And_Symptom_Handler.order_Data_By_Day(userDate_And_Symptom_Handler.symptom)
-                                                                    .then(()=> {
-                                                                        this.adjustData_MonthView();
-                                                                        this.closeSymptomList();
-                                                                        Alert.alert('Rendering chart data for', `${userDate_And_Symptom_Handler.symptom}`);
-                                                                    })
-                                                                    .catch(()=> {
-
-                                                                    })
-                                                                
-                                                                
-                                                            }}>
+                                                            search: 'Search...',
+                                                        }) 
+                                                    }, 200)
                                                         
-                                                            <Text 
-                                                                style={styles.list}>
-                                                                {item.key}
-                                                            </Text>
-                                                        </Pressable>
-                                                    )
                                                 }}
-                                            />
-                                        }
-                                </KeyboardAvoidingView>
+                                                onFocus={()=>{
+                                                    this.setState({
+                                                        search: "",
+                                                        my_Symptoms: sampleList
+                                                    })
+                                                }}
+                                                ref={input => this.input = input}
+                                        />
+                                        </View>
+                                        
+                                        <Text>
+                                            <ScrollableTabView
+                                                style={{ 
+                                                    marginTop: 20,
+                                                    width: (Dimensions.get('screen').width),
+                                                    borderWidth: 0,
+                                                }}
+                                                onChangeTab={({i,ref}) => {
+                                                    // only one tab currently no need for logic yet, 
+                                                    // will implement a frquent list then conditional rendering in future
+                                                    
+                                                }}
+                                                tabBarUnderlineStyle={{
+                                                    backgroundColor: 'white',
+                                                }}
+                                                tabBarBackgroundColor="teal"
+                                                tabBarActiveTextColor="white"
+                                                tabBarTextStyle={{
+                                                    borderColor: 'teal'
+                                                }}
+                                                renderTabBar={() => 
+                                                    <DefaultTabBar 
+                                                        style={{
+                                                            borderWidth: 0,
+                                                            borderColor: '#00000000',
+                                                        }}      
+                                                        />
+                                                }
+                                            >
+                                                <Text tabLabel='My Logged Symptoms'></Text>
+                                                
+                                            </ScrollableTabView>;
+                                        </Text>
+                                    
+                                    { this.state.my_Symptoms_List &&
+                                        <FlatList
+                                            data={this.state.my_Symptoms}
+                                            style={{
+                                                height: Dimensions.get('screen').height/1.5
+                                            }}
+                                            renderItem={ ({item}) => {
+                                                return(
+                                                    <Pressable
+                                                        style={({pressed}) => [
+                                                            {
+                                                                backgroundColor: pressed ? 'red' : 'white',
+                                                                opacity: pressed ? 0.1 : 1,
+                                                                color: pressed ? 'white' : 'black',          
+                                                            },
+                                                        ]}
+                                                        onPress={()=> {
+                                                            userDate_And_Symptom_Handler.symptom = item.key;
+                                                            this.renderModalMonthPicker(true);
+                                                            
+                                                            
+                                                        }}>
+                                                    
+                                                        <Text 
+                                                            style={styles.list}>
+                                                            {item.key}
+                                                        </Text>
+                                                    </Pressable>
+                                                )
+                                            }}
+                                        />
+                                    }
+                            </KeyboardAvoidingView>
                         </Modal>
 
                     <Modal
@@ -669,7 +820,7 @@ export default class Symptom_Analysis extends React.Component {
                         <FlatList 
                             data={this.renderMultipleSymptomObjects()}
                             renderItem={({item}) => {
-                                return renderSymptomObject(item)
+                                return renderSymptomObject(item);
                             }}
                             />
                     

@@ -79,6 +79,7 @@ class Dates_Symptoms {
     }
 
     /**
+     * used for chart updating to organizing symptom by day, chronologically, specific to one month 
      * 
      * asynchronous noSQL firebase query
      * 
@@ -90,8 +91,6 @@ class Dates_Symptoms {
      */
 
     async order_Data_By_Day(symptom, month) {
-
-        month =4;
 
         var collection = user_DB_class.database.collection('application_database');
         var user_doc = collection.doc(user_DB_class.username);
@@ -112,7 +111,7 @@ class Dates_Symptoms {
         const sortMainList = async () => {
             for (var i = 0; i < data.length; i++) {
                 var x = sorted[i];
-                for (var j = 0; j < data.length; j++) {
+                for (var j = 0; j < sorted.length; j++) {
                     var y = data[j];
                     if (data[j].day == sorted[i]) {
                         final_array.push(data[j]);
@@ -121,7 +120,11 @@ class Dates_Symptoms {
             }
         }
         sortMainList().then(()=> {
-            this.symptom_array = final_array;
+
+            var array = new Set(final_array)
+
+            array.forEach(object => this.symptom_array.push(object))
+            console.log(this.symptom_array)
         })
         .catch(()=> {
             // error handling not yet implemented
@@ -142,7 +145,7 @@ class Dates_Symptoms {
     }
 
     /** 
-     * used to alter month, day, and year values from custom input in symptom logger componenet 
+     * used to alter month, day, and year values from custom input in symptom logger component 
      *  
      * @param {int} day 
      * @param {int} month 
