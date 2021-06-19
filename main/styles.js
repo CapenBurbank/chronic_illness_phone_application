@@ -1,5 +1,15 @@
 import {Dimensions} from 'react-native';
+import { Styles_Object_Database, Linear_Gradient, Icons } from './style_data/styles_object_database';
 const RN = require('react-native');
+
+const Style_Class = new Styles_Object_Database;
+const Linear_Gradient_Class = new Linear_Gradient;
+const Icon_Class = new Icons;
+
+Linear_Gradient_Class.enable_Dark_Mode(true)
+  .then(()=> {
+
+  })
 
 /**
  * main implementation of standard styles for frequently used elements throughout app 
@@ -112,7 +122,7 @@ const styles = RN.StyleSheet.create({
       paddingLeft: 15,
     },
     settingsTitle: {
-      color: 'teal',
+      color: Icon_Class.iconTextColor,
       fontSize: 25,
       textAlign: 'center',
       fontWeight: 'bold',
@@ -152,9 +162,10 @@ const styles = RN.StyleSheet.create({
       textAlign: 'center',
       color: 'white',
       fontWeight: 'bold',
-    }
+    },
+    
   });
 
   const buttonColor = 'teal';
 
-  export {styles, buttonColor}
+  export {styles, buttonColor, Style_Class, Linear_Gradient_Class, Icon_Class}
