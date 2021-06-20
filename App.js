@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {LoginPage, user_DB_class} from './main/login';
 import {SignUpPage} from './main/sign-up';
 import {ProfilePage} from './main/profile';
-import {SettingsPage} from './main/settings';
+import {SettingsPage} from './main/settings_screen_components/settings';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Ionicons} from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';

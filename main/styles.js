@@ -1,15 +1,10 @@
 import {Dimensions} from 'react-native';
-import { Styles_Object_Database, Linear_Gradient, Icons } from './style_data/styles_object_database';
+import { Styles_Object_Database, Linear_Gradient, Icons } from './settings_screen_components/style_data/styles_object_database';
 const RN = require('react-native');
 
 const Style_Class = new Styles_Object_Database;
 const Linear_Gradient_Class = new Linear_Gradient;
 const Icon_Class = new Icons;
-
-Linear_Gradient_Class.enable_Dark_Mode(true)
-  .then(()=> {
-
-  })
 
 /**
  * main implementation of standard styles for frequently used elements throughout app 

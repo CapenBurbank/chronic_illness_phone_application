@@ -2,8 +2,6 @@
 
 class Styles_Object_Database {
     constructor() {
-        this.allowLinearGradient = true;
-        this.backgroundColor;
         this.darkMode = false;
         this.lightMode = false;
     }
@@ -14,23 +12,21 @@ class Styles_Object_Database {
      */
 
     async enable_Dark_Mode(enable) {
-        
-        if (enable) {
-            this.backgroundColor = '#121212'
-            this.allowLinearGradient = false
-            this.darkMode = enable
-        } 
-        else {
-            this.darkMode = enable;
+        this.darkMode = enable;
+        if (this.lightMode) {
+            this.lightMode = !enable
         }
     }
 
+    /**
+     * 
+     * @param {boolean} enable 
+     */
+
     async enableLightmode(enable) {
-        if (enable) {
-            this.lightMode = enable
-        }
-        else {
-            this.lightMode = enable
+        this.lightMode = enable;
+        if (this.darkMode) {
+            this.darkMode = !enable;
         }
     }
 
@@ -101,8 +97,14 @@ class Background extends Styles_Object_Database {
 class Linear_Gradient extends Styles_Object_Database {
     constructor (darkMode, lightMode) {
         super(darkMode, lightMode);
-        this.color_1 = 'cadetblue';
-        this.color_2 = 'white';
+        this.standard_color_1 = 'cadetblue';
+        this.standard_color_2 = 'white';
+        this.main_color_1 = this.standard_color_1;
+        this.main_color_2 = this.standard_color_2;
+        this.preference_color_1;
+        this.preference_color_2;
+        this.darkModeColorScheme = '#121212';
+        this.lightModeColorScheme = '#FFFFFF';
     }
 
     /**
@@ -112,21 +114,35 @@ class Linear_Gradient extends Styles_Object_Database {
      */
 
     adjust_Linear_Gradient(color1, color2) {
-        this.color_1 = color1;
-        this.color_2 = color2; 
+        this.main_color_1 = color1;
+        this.main_color_2 = color2; 
     }
 }
 
 class Icons extends Styles_Object_Database {
     constructor (darkMode, lightMode) {
         super(darkMode, lightMode);
-        this.iconColor = 'teal'
-        this.iconTextColor = 'teal'
+        this.iconStandardColor = 'teal';
+        this.iconColor = this.iconStandardColor;
+        this.iconTextColor = this.iconStandardColor;
+        this.iconBackgroundColorStandard = 'rgba(255,255,255, 0.19)';
+        this.iconBackgroundColorLightMode = 'rgba(128,128,128, 0.19)';
+        this.darkModeColorScheme = 'rgba(255,255,255, 0.8)';
+        this.lightModeColorScheme = 'black';
+        this.currentBackgroundColorForIcon = this.iconBackgroundColorStandard;
     }
 
     change_iconColor(color) {
         this.iconColor = color;
         this.iconTextColor = color;
+
+    
+        if (color == this.lightModeColorScheme) {
+            this.currentBackgroundColorForIcon = this.iconBackgroundColorLightMode;
+        }
+        else if (color != this.lightModeColorScheme) {
+            this.currentBackgroundColorForIcon = this.iconBackgroundColorStandard;
+        }
     }
 }
 
