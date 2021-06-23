@@ -343,7 +343,7 @@ export default class Symptom_Logger extends React.Component {
                                             this.resetSymptomLists();
                                             this.resetState();
 
-                                            var convertDate = new Date(Date.now());
+                                            /* var convertDate = new Date(Date.now());
 
                                             var hours = convertDate.getHours();
                                             var minutes = convertDate.getMinutes();
@@ -365,7 +365,7 @@ export default class Symptom_Logger extends React.Component {
                                                 }
                                             }
 
-                                            console.log(`readable time: ${hours}:${minutes} ${am_pm}`);
+                                            console.log(`readable time: ${hours}:${minutes} ${am_pm}`); */
                                         }}>
                                         <Ionicons size={30} name='close-circle-outline' color='white' />
                                     </Pressable>

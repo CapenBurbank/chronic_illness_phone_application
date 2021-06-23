@@ -64,7 +64,8 @@ class Dates_Symptoms {
                 month: this.month,
                 day: this.day,
                 severity: severity,
-                additional_notes: notes
+                additional_notes: notes,
+                exactTime: Date.now(),
             })
             .then(()=> {
                 setTimeout(()=>{
