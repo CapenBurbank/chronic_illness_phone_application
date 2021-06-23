@@ -46,11 +46,39 @@ const BW = 0.4;
  * @returns react native view based on data pulled from each object inside modal
  */
 
+function convertDateTimeReadable(time) {
+    var convertDate = new Date(time);
+
+    var hours = convertDate.getHours();
+    var minutes = convertDate.getMinutes();
+
+    var am_pm;
+
+    if (hours > 12 && hours < 24) {
+        am_pm = 'pm'
+        if (hours > 12) {
+            hours = hours - 12;
+        }
+    } 
+    else if (hours == 24 || hours < 12) {
+        am_pm = 'am'
+        if (hours == 24) {
+            hours = 1;
+        }
+    }
+
+    var readableTime = `${hours}:${minutes} ${am_pm}`;
+
+    return readableTime;
+}
+
 function renderSymptomObject(object) {
 
     var notes = object.additional_notes;
 
-    var date = `${object.month}/${object.day}/${object.year}`
+    var date = `${object.month}/${object.day}/${object.year}`;
+
+    var readableTime = convertDateTimeReadable(object.exact_Time);
 
     if (object.additional_notes == 'Any Notes...?' || object.additional_notes == "") {
         object.additional_notes = ''
@@ -90,7 +118,7 @@ function renderSymptomObject(object) {
                             
                         }}
                         >
-                        actual time here
+                        {readableTime}
                     </Text>
                     <Text
                         style={{
@@ -235,7 +263,7 @@ export default class Symptom_Analysis extends React.Component {
             modalSymptomList: false,
             modalMonthPicker: false,
             dataPointClickModal: false,
-            my_Symptoms: sampleList,
+            my_Symptoms: this.getMySymptomList(),
             crossReferenceList: [],
             my_Symptoms_List: true,
             daySelected: undefined,
@@ -253,6 +281,22 @@ export default class Symptom_Analysis extends React.Component {
             },
         };
     };
+
+    getMySymptomList() {
+        user_DB_class.get_Symptom_List()
+            .then(()=> {
+                this.updateAll();
+            })
+            .catch(()=> {
+
+            })
+        
+        return user_DB_class.symptom_array;
+    }
+
+    updateAll() {
+        this.forceUpdate();
+    }
 
     componentDidMount() {
         this.keyboardDidShowLostener = Keyboard.addListener('keyboardDidShow', ()=> {})
@@ -376,6 +420,9 @@ export default class Symptom_Analysis extends React.Component {
 
     renderMultipleSymptomObjects() {
         var objectArray = userDate_And_Symptom_Handler.symptom_array.filter(object => object.day == this.state.daySelected);
+
+        objectArray = userDate_And_Symptom_Handler.organize_Same_Day_Symptoms_In_Month_View(objectArray);
+
         return objectArray;
     }
 
@@ -527,7 +574,11 @@ export default class Symptom_Analysis extends React.Component {
                                     color={buttonColor}
                                     title='Pick a symptom to track'
                                     onPress={()=> {
-                                        this.openSymptomList();
+                                        user_DB_class.get_Symptom_List()
+                                            .then(()=> {
+                                                this.openSymptomList();
+                                                this.updateAll();
+                                            });
                                     }}
                                 />
                             </View>
@@ -682,7 +733,7 @@ export default class Symptom_Analysis extends React.Component {
                                             style={{
                                                 paddingBottom: 10,
                                             }}
-                                        >
+                                            >
                                             <TextInput 
                                                 style={[styles.input, {
                                                     width: Dimensions.get('screen').width -15,
@@ -765,15 +816,13 @@ export default class Symptom_Analysis extends React.Component {
                                                             },
                                                         ]}
                                                         onPress={()=> {
-                                                            userDate_And_Symptom_Handler.symptom = item.key;
+                                                            userDate_And_Symptom_Handler.symptom = item.symptom;
                                                             this.renderModalMonthPicker(true);
-                                                            
-                                                            
                                                         }}>
                                                     
                                                         <Text 
                                                             style={styles.list}>
-                                                            {item.key}
+                                                            {item.symptom}
                                                         </Text>
                                                     </Pressable>
                                                 )

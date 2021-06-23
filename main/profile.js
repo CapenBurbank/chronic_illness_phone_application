@@ -5,15 +5,20 @@ import {Symptom_Analysis} from './symptom_analysis';
 import {LinearGradient} from 'expo-linear-gradient';
 import {Symptom_Logger} from './symptom_logger';
 import {Ionicons} from '@expo/vector-icons';
+import { Dates_Symptoms } from '../DB/dates_symptoms';
 import {
     View,
     Text,
     Pressable,
 } from 'react-native';
 
+
 /**
  * currently no implementation for (Journal & Community) icons functionality 
  */
+
+const userDate_And_Symptom_Handler = new Dates_Symptoms;
+userDate_And_Symptom_Handler.setCurrentDateAndTime();
 
 export default class ProfilePage extends React.Component {
     constructor(props) {
@@ -176,6 +181,7 @@ export default class ProfilePage extends React.Component {
                                         user_DB_class.get_Symptom_List()
                                             .then(()=> {
                                                 this.openSymptomLoggerModal();
+                                                userDate_And_Symptom_Handler.setCurrentDateAndTime();
                                                 this.updateAll();
                                             })
                                             .catch(()=> {
@@ -332,4 +338,4 @@ export default class ProfilePage extends React.Component {
     }
 }
 
-export {ProfilePage};
+export {ProfilePage, userDate_And_Symptom_Handler};

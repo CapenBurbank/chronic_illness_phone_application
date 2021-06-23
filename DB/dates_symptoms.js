@@ -65,7 +65,7 @@ class Dates_Symptoms {
                 day: this.day,
                 severity: severity,
                 additional_notes: notes,
-                exactTime: Date.now(),
+                exact_Time: Date.now(),
             })
             .then(()=> {
                 setTimeout(()=>{
@@ -77,6 +77,12 @@ class Dates_Symptoms {
                 //err here
 
             })
+    }
+
+    organize_Same_Day_Symptoms_In_Month_View(objectArray) {
+
+        objectArray = objectArray.sort((a,b)=> {return a.exact_Time - b.exact_Time});
+        return objectArray;
     }
 
     /**
@@ -137,12 +143,10 @@ class Dates_Symptoms {
      */
 
     setCurrentDateAndTime() {
-        const date = new Date;
+        const date = new Date(Date.now());
         this.day = date.getDate();
-        this.month = date.getMonth();
+        this.month = date.getMonth() + 1;
         this.year = date.getFullYear();
-        this.exact_Time = date.getTime();
-        this.exact_Time = this.exact_Time.toString();
     }
 
     /** 
