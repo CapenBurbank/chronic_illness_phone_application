@@ -1,10 +1,11 @@
 import {Dimensions} from 'react-native';
-import { Styles_Object_Database, Linear_Gradient, Icons } from './settings_screen_components/style_data/styles_object_database';
+import { Styles_Object_Database, Linear_Gradient, Icons, Fonts } from './style_data/styles_object_database';
 const RN = require('react-native');
 
 const Style_Class = new Styles_Object_Database;
 const Linear_Gradient_Class = new Linear_Gradient;
 const Icon_Class = new Icons;
+const Font_Class = new Fonts;
 
 /**
  * main implementation of standard styles for frequently used elements throughout app 
@@ -25,7 +26,7 @@ const styles = RN.StyleSheet.create({
     },
     paragraph: {
       margin: 24,
-      fontSize: 18,
+      fontSize: 18 * Font_Class.fontMultiplier,
       fontWeight: 'bold',
       textAlign: 'center',
       paddingBottom: 10,
@@ -57,7 +58,7 @@ const styles = RN.StyleSheet.create({
       color: 'cyan',
       paddingTop: 50,
       paddingBottom: 25,
-      fontSize: 50,
+      fontSize: 50 * Font_Class.fontMultiplier,
       textAlign: 'center',
       textShadowColor: '#000000',
       fontFamily: 'sans-serif-thin',
@@ -65,7 +66,7 @@ const styles = RN.StyleSheet.create({
     },
     h2: {
       color: '#787c82',
-      fontSize: 25,
+      fontSize: 25 * Font_Class.fontMultiplier,
       textAlign: 'center',
       textShadowColor: '#000000',
     },
@@ -102,7 +103,7 @@ const styles = RN.StyleSheet.create({
       borderWidth: 0.5,
       paddingLeft: 40,
       padding: 9,
-      fontSize: 16,
+      fontSize: 16 * Font_Class.fontMultiplier,
     },
     column: {
       flexDirection:'row',
@@ -118,7 +119,7 @@ const styles = RN.StyleSheet.create({
     },
     settingsTitle: {
       color: Icon_Class.iconTextColor,
-      fontSize: 25,
+      fontSize: 25 * Font_Class.fontMultiplier,
       textAlign: 'center',
       fontWeight: 'bold',
       marginBottom: -50,
@@ -143,7 +144,7 @@ const styles = RN.StyleSheet.create({
     },
     modalSymptomTracker_textInput: {
       width: Dimensions.get('screen').width/2,
-      fontSize: 18,
+      fontSize: 18 * Font_Class.fontMultiplier,
       height: 28,
       backgroundColor: '#ffffff',
       borderColor: '#000000',
@@ -152,7 +153,7 @@ const styles = RN.StyleSheet.create({
       textAlign: 'center',
     },
     modalSymptomTracker_textLabel: {
-      fontSize: 18,
+      fontSize: 18 * Font_Class.fontMultiplier,
       padding: 3,
       textAlign: 'center',
       color: 'white',
@@ -163,4 +164,4 @@ const styles = RN.StyleSheet.create({
 
   const buttonColor = 'teal';
 
-  export {styles, buttonColor, Style_Class, Linear_Gradient_Class, Icon_Class}
+  export {styles, buttonColor, Style_Class, Linear_Gradient_Class, Icon_Class, Font_Class}

@@ -9,6 +9,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Ionicons} from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import {Symptom_Analysis} from './main/symptom_analysis';
+import {styles, Style_Class, Font_Class, Icon_Class, Linear_Gradient_Class} from './main/settings_screen_components/styles'
 
 // LogBox.ignoreAllLogs is only implemented to ignore minor messages while in early development
 LogBox.ignoreAllLogs(true);
@@ -20,29 +21,51 @@ const ProfileBottomTabNavigator = createBottomTabNavigator();
  */
 
 class Profile extends React.Component {
+    constructor(props) {
+        super(props);
+        this.force = this.force.bind(this);
+    }
+
+    force = () => {
+        this.forceUpdate()
+    }
+
     render() {
         return (
+            
             
             <ProfileBottomTabNavigator.Navigator 
                 screenOptions={({route}) => ({
                     tabBarIcon: ({focused, color, size}) => {
                         if (route.name == "Home") {
-                            return <Ionicons name="home" size={25} color='teal' />
+                            
+                            return <Ionicons name="home" size={25} color={Icon_Class.iconColor} />
                         }
                         else if (route.name == "Settings") {
-                            return <Ionicons name="settings" size={25} color='teal'/>
+                            
+                            return <Ionicons name="settings" size={25} color={Icon_Class.iconColor} />
                         }
                         else if (route.name == 'Analyze') {
-                            return <Ionicons name="stats-chart" size={25} color='teal'/>
+                            
+                            return <Ionicons name="stats-chart" size={25} color={Icon_Class.iconColor} />
                         }
                     }
+                    
                 })
                 }
+                tabBarOptions = {{
+                    inactiveBackgroundColor: Icon_Class.tabBackgroundColor,
+                    activeBackgroundColor: Icon_Class.tabBackgroundColor,
+                    activeTintColor: Icon_Class.iconTextColor,
+                    inactiveTintColor: Icon_Class.inactiveTabText,
+                }}
                 initialRouteName="Home" 
+                
                 >
                 <ProfileBottomTabNavigator.Screen
                     name="Home" 
                     component={ProfilePage}
+                    
                 />
                 <ProfileBottomTabNavigator.Screen 
                     name="Analyze"
@@ -50,7 +73,12 @@ class Profile extends React.Component {
                 />
                 <ProfileBottomTabNavigator.Screen
                     name="Settings" 
-                    component={SettingsPage}
+                    
+                    children={()=>{
+                        return(
+                        <SettingsPage reRenderTabStyle={this.force} />
+                        )
+                    }}
                 />
                     
             </ProfileBottomTabNavigator.Navigator>
@@ -79,3 +107,4 @@ export default function app() {
         );
     
 }
+export {Profile}

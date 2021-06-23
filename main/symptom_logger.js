@@ -1,5 +1,5 @@
 import React from 'react';
-import {styles, buttonColor} from './styles'; 
+import {styles, buttonColor} from './settings_screen_components/styles'; 
 import {user_DB_class} from './login';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -342,6 +342,30 @@ export default class Symptom_Logger extends React.Component {
                                         onPress={()=>{
                                             this.resetSymptomLists();
                                             this.resetState();
+
+                                            var convertDate = new Date(Date.now());
+
+                                            var hours = convertDate.getHours();
+                                            var minutes = convertDate.getMinutes();
+
+                                            hours = 13;
+
+                                            var am_pm;
+
+                                            if (hours > 12 && hours < 24) {
+                                                am_pm = 'pm'
+                                                if (hours > 12) {
+                                                    hours = hours - 12;
+                                                }
+                                            } 
+                                            else if (hours == 24 || hours < 12) {
+                                                am_pm = 'am'
+                                                if (hours == 24) {
+                                                    hours = 1;
+                                                }
+                                            }
+
+                                            console.log(`readable time: ${hours}:${minutes} ${am_pm}`);
                                         }}>
                                         <Ionicons size={30} name='close-circle-outline' color='white' />
                                     </Pressable>

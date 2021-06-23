@@ -1,8 +1,8 @@
 import React, {Alert} from 'react';
-import {styles, buttonColor, Style_Class, Linear_Gradient_Class, Icon_Class} from '../styles';
+import {styles, buttonColor, Style_Class, Linear_Gradient_Class, Icon_Class, Font_Class} from './styles';
 import {LinearGradient} from 'expo-linear-gradient';
 import {Ionicons} from '@expo/vector-icons';
-import {} from '../styles';
+import {Accessibility_Modal} from './custom_components/accessibility_modal';
 import {
     View,
     Button,
@@ -20,25 +20,34 @@ export default class SettingsPage extends React.Component {
         super(props);
         this.state={
             darkMode: Style_Class.darkMode,
-            lightMode: Style_Class.lightMode
+            lightMode: Style_Class.lightMode,
+            accessibility_modal_visibility: false,
         }
+        this.close_accessibility_modal = this.close_accessibility_modal.bind(this);
+        this.reRender = this.reRender.bind(this);
+        this.return_accessibility_modal_state = this.return_accessibility_modal_state.bind(this);
     }
 
-    /**
-     * 
-     * when invoked, displays sets of 2 touchable icons, currently only implemented with display functionality, and nothing else. Function parameters will be used in future to have unique modals in access for each specific setting
-     * 
-     * 
-     * -Similar implementations can be seen in profile/symptom_logger functionality 
-     * 
-     * @param {string} SETTING_TITLE_LEFT 
-     * @param {string} ICON_LEFT 
-     * @param {string} SETTING_TITLE_RIGHT 
-     * @param {string} ICON_RIGHT 
-     * @param {function} ON_PRESS_CALLBACK_FUNCTION_LEFT 
-     * @param {function} ON_PRESS_CALLBACK_FUNCTION_RIGHT 
-     * @returns react native view displaying touchable Icons 
-     */
+    open_accessibility_modal() {
+        this.setState({
+            accessibility_modal_visibility: true
+        })
+    }
+
+    close_accessibility_modal() {
+        this.setState({
+            accessibility_modal_visibility: false,
+        })
+    }
+
+    return_accessibility_modal_state() {
+        return this.state.accessibility_modal_visibility;
+    }
+
+    reRender() {
+        this.forceUpdate();
+        this.props.reRenderTabStyle();
+    }  
 
     SettingChoice(SETTING_TITLE_LEFT, ICON_LEFT, ON_PRESS_CALLBACK_FUNCTION_LEFT, SETTING_TITLE_RIGHT, ICON_RIGHT, ON_PRESS_CALLBACK_FUNCTION_RIGHT) {
         return (
@@ -69,7 +78,7 @@ export default class SettingsPage extends React.Component {
                         <Ionicons name={ICON_LEFT} size={100} color={Icon_Class.iconColor} />
                         <Text
                             style={{
-                                fontSize: 12,
+                                fontSize: 12 * Font_Class.fontMultiplier,
                                 fontWeight: 'bold',
                                 textAlign: 'center',
                                 color: Icon_Class.iconTextColor,
@@ -105,7 +114,7 @@ export default class SettingsPage extends React.Component {
                         <Ionicons name={ICON_RIGHT} size={100} color={Icon_Class.iconColor} />
                         <Text
                             style={{
-                                fontSize: 12,
+                                fontSize: 12 * Font_Class.fontMultiplier,
                                 fontWeight: 'bold',
                                 textAlign: 'center',
                                 color: Icon_Class.iconTextColor
@@ -121,7 +130,7 @@ export default class SettingsPage extends React.Component {
     toggleLightMode() {
 
         if (!this.state.lightMode || this.state.darkMode) {
-            Style_Class.enableLightmode(true)
+            Style_Class.enable_Light_mode(true)
                 .then(()=> {
                     Linear_Gradient_Class.adjust_Linear_Gradient(Linear_Gradient_Class.lightModeColorScheme, Linear_Gradient_Class.lightModeColorScheme);
                     Icon_Class.change_iconColor(Icon_Class.lightModeColorScheme)
@@ -129,6 +138,7 @@ export default class SettingsPage extends React.Component {
                         darkMode: Style_Class.darkMode ,
                         lightMode: Style_Class.lightMode 
                     })
+                    this.reRender()
                     
                 })
                 .catch(()=> {
@@ -137,7 +147,7 @@ export default class SettingsPage extends React.Component {
             
         }
         else if (this.state.lightMode || !this.state.darkMode) {
-            Style_Class.enableLightmode(false)
+            Style_Class.enable_Light_mode(false)
                 .then(()=> {
                     Linear_Gradient_Class.adjust_Linear_Gradient(Linear_Gradient_Class.standard_color_1, Linear_Gradient_Class.standard_color_2);
                     Icon_Class.change_iconColor(Icon_Class.iconStandardColor)
@@ -145,6 +155,7 @@ export default class SettingsPage extends React.Component {
                         darkMode: Style_Class.darkMode ,
                         lightMode: Style_Class.lightMode 
                     })
+                    this.reRender()
                     
                 })
                 .catch(()=> {
@@ -164,6 +175,7 @@ export default class SettingsPage extends React.Component {
                             darkMode: Style_Class.darkMode ,
                             lightMode: Style_Class.lightMode
                         })
+                        this.reRender()
                         
                     })
                     .catch(()=> {
@@ -180,6 +192,7 @@ export default class SettingsPage extends React.Component {
                             darkMode: Style_Class.darkMode,
                             lightMode: Style_Class.lightMode
                         })
+                        this.reRender()
                         
                     })
                     .catch(()=> {
@@ -196,10 +209,10 @@ export default class SettingsPage extends React.Component {
                 style={styles.container}
                 >
                 <LinearGradient
-                        colors={[Linear_Gradient_Class.main_color_1, Linear_Gradient_Class.main_color_2]}
-                        style={styles.background}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 1 }}>
+                    colors={[Linear_Gradient_Class.main_color_1, Linear_Gradient_Class.main_color_2]}
+                    style={styles.background}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}>
                     
                     
                     <View style={styles.container}>
@@ -207,7 +220,7 @@ export default class SettingsPage extends React.Component {
                             {
                                 color: Icon_Class.iconTextColor
                             }
-                            ]}>
+                        ]}>
                             Settings
                         </Text> 
                     </View>
@@ -229,9 +242,7 @@ export default class SettingsPage extends React.Component {
                                     flexDirection: 'column',  
                                     justifyContent: 'center'
                                 }}>
-                                {this.SettingChoice("Appearance", "brush-outline",()=>{}, "Accessibility", "body-outline",()=>{})}
                                 {this.SettingChoice("Notifications", "notifications-outline",()=>{} , "Account", "person-circle-outline",()=>{})}
-                                {this.SettingChoice("About Us", "information-circle-outline",()=>{}, "Tutorials", "md-book-outline",()=>{})}
                                 <Text
                                     style={{
                                         alignSelf: 'center'
@@ -260,7 +271,7 @@ export default class SettingsPage extends React.Component {
                                             <Ionicons name='moon' size={100} color={Icon_Class.iconColor} />
                                             <Text
                                                 style={{
-                                                    fontSize: 12,
+                                                    fontSize: 12 * Font_Class.fontMultiplier,
                                                     fontWeight: 'bold',
                                                     textAlign: 'center',
                                                     color: Icon_Class.iconTextColor,
@@ -297,12 +308,86 @@ export default class SettingsPage extends React.Component {
                                             <Ionicons name='sunny-outline' size={100} color={Icon_Class.iconColor} />
                                             <Text
                                                 style={{
-                                                    fontSize: 12,
+                                                    fontSize: 12 * Font_Class.fontMultiplier,
                                                     fontWeight: 'bold',
                                                     textAlign: 'center',
                                                     color: Icon_Class.iconTextColor
                                                 }}>
                                                     Light Mode
+                                            </Text>
+                                        </Pressable>
+                                    </View>
+                                </Text>
+
+                                <Text
+                                    style={{
+                                        alignSelf: 'center'
+                                    }}>
+                                    <View
+                                        style={{
+                                            padding: 5,
+                                            flexDirection: 'row',
+                                            alignSelf: 'center'
+                                        }}>
+                                        <Pressable
+                                            style={(({pressed})=> [
+                                                {
+                                                    opacity: pressed ? 0.3 : 1,
+                                                },
+                                                {
+                                                    backgroundColor: Icon_Class.currentBackgroundColorForIcon,
+                                                    borderRadius: 15,
+                                                    padding: 15,
+                                                }
+                                            ])}
+                                            onPress={()=> {
+                                                this.open_accessibility_modal();
+                                            }}>
+                                            <Ionicons name='body-outline' size={100} color={Icon_Class.iconColor} />
+                                            <Text
+                                                style={{
+                                                    fontSize: 12 * Font_Class.fontMultiplier,
+                                                    fontWeight: 'bold',
+                                                    textAlign: 'center',
+                                                    color: Icon_Class.iconTextColor,
+                                                }}>
+                                                    Accessibility
+                                            </Text>
+                                        </Pressable>
+                                    </View>
+                                
+                                    
+                                    <View
+                                        style={{
+                                            padding: 5,
+                                            flexDirection: 'row',
+                                            alignSelf: 'center',
+                                            
+                                        }}>
+                                        <Pressable
+                                            style={(({pressed})=> [
+                                                {
+                                                    opacity: pressed ? 0.3 : 1
+                                                },
+                                                {
+                                                    backgroundColor: Icon_Class.currentBackgroundColorForIcon,
+                                                    borderRadius: 15,
+                                                    padding: 15
+                                                }
+                                            ])}
+                                            onPress={()=> {
+                                                // nothing yet
+                                            }}>
+                                    
+                                            <Ionicons name='information-circle-outline' size={100} color={Icon_Class.iconColor} />
+                                            <Text
+                                                style={{
+                                                    fontSize: 12 * Font_Class.fontMultiplier,
+                                                    fontWeight: 'bold',
+                                                    textAlign: 'center',
+                                                    color: Icon_Class.iconTextColor
+                                                }}>
+                                                    About us
                                             </Text>
                                         </Pressable>
                                     </View>
@@ -317,8 +402,10 @@ export default class SettingsPage extends React.Component {
                             marginTop:100
                         }}
                     >
-
                     </View>
+                    { this.state.accessibility_modal_visibility &&
+                        <Accessibility_Modal return_accessibility_modal_state={this.return_accessibility_modal_state} close_accessibility_modal={this.close_accessibility_modal} reRender={this.reRender} />
+                    }
                 </LinearGradient>
             </View>
         )

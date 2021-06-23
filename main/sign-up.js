@@ -1,5 +1,5 @@
 import React from 'react';
-import {styles, buttonColor} from './styles';
+import {styles, buttonColor} from './settings_screen_components/styles';
 import {user_DB_class} from './login';
 import {LinearGradient} from 'expo-linear-gradient';
 import {Ionicons} from '@expo/vector-icons';

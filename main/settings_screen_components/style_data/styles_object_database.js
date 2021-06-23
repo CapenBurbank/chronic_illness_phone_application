@@ -23,7 +23,7 @@ class Styles_Object_Database {
      * @param {boolean} enable 
      */
 
-    async enableLightmode(enable) {
+    async enable_Light_mode(enable) {
         this.lightMode = enable;
         if (this.darkMode) {
             this.darkMode = !enable;
@@ -33,7 +33,8 @@ class Styles_Object_Database {
 }
 
 class Fonts extends Styles_Object_Database {
-    constructor () {
+    constructor (darkMode, lightMode) {
+        super(darkMode, lightMode)
         this.fontMultiplier = 1;
         this.fontFamily;
         this.fontWeight;
@@ -71,17 +72,24 @@ class Fonts extends Styles_Object_Database {
      * 
      * all fonts are standardized throughout app, font multiplier is applied as a factor to slightly enlarge font in increments
      * 
-     * @param {int} int 
+     * 
      */
 
-    change_fontMultiplier(int) {
-        this.fontMultiplier = int;
+    increment_fontMultiplier() {
+        if (this.fontMultiplier == 1) {
+            this.fontMultiplier = 2;
+        } else if (this.fontMultiplier == 2) {
+            this.fontMultiplier = 3;
+        } else if (this.fontMultiplier == 3) {
+            this.fontMultiplier = 1;
+        } 
     }
 }
 
 class Background extends Styles_Object_Database {
-    constructor (backgroundColor) {
-        super(backgroundColor);
+    constructor (darkMode, lightMode) {
+        super(darkMode, lightMode);
+        this.backgroundColor;
     }
 
     /**
@@ -125,11 +133,16 @@ class Icons extends Styles_Object_Database {
         this.iconStandardColor = 'teal';
         this.iconColor = this.iconStandardColor;
         this.iconTextColor = this.iconStandardColor;
+        this.inactiveTabTextLightMode = 'rgba(0,0,0, 1)'
+        this.inactiveTabTextDarkMode = 'rgba(255,255,255, 1)';
+        this.inactiveTabText = this.iconTextColor;
         this.iconBackgroundColorStandard = 'rgba(255,255,255, 0.19)';
         this.iconBackgroundColorLightMode = 'rgba(128,128,128, 0.19)';
         this.darkModeColorScheme = 'rgba(255,255,255, 0.8)';
         this.lightModeColorScheme = 'black';
+        this.tabDarkModeBackground = 'rgba(18,18,18, 0.7)';
         this.currentBackgroundColorForIcon = this.iconBackgroundColorStandard;
+        this.currentTabBackgroundColor = this.iconBackgroundColorStandard;
     }
 
     change_iconColor(color) {
@@ -139,9 +152,20 @@ class Icons extends Styles_Object_Database {
     
         if (color == this.lightModeColorScheme) {
             this.currentBackgroundColorForIcon = this.iconBackgroundColorLightMode;
+            this.inactiveTabText = this.inactiveTabTextLightMode;
         }
         else if (color != this.lightModeColorScheme) {
             this.currentBackgroundColorForIcon = this.iconBackgroundColorStandard;
+            this.inactiveTabText = this.iconTextColor;
+        }
+
+        if (color == this.darkModeColorScheme) {
+            this.tabBackgroundColor = this.tabDarkModeBackground;
+            this.inactiveTabText = this.inactiveTabTextDarkMode;
+        } 
+        else if (color != this.darkModeColorScheme) {
+            this.tabBackgroundColor = this.iconBackgroundColorStandard;
+            this.inactiveTabText = this.iconTextColor;
         }
     }
 }

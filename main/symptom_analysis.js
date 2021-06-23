@@ -22,7 +22,7 @@ import {
     StackedBarChart,
 } from 'react-native-chart-kit';
 import {user_DB_class} from './login';
-import {styles, buttonColor} from './styles';
+import {styles, buttonColor} from './settings_screen_components/styles';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import {LinearGradient} from 'expo-linear-gradient';
 import {Dates_Symptoms} from '../DB/dates_symptoms';
