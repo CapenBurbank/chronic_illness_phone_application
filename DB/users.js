@@ -9,6 +9,7 @@
  * 
  *         
  */
+import { resolveUri } from 'expo-asset/build/AssetSources';
 import {Alert} from 'react-native';
 const firebase = require('firebase/app');
 require('firebase/firestore');
@@ -65,35 +66,20 @@ class Users_Database {
 
     async get_Symptom_List() {
 
-        if(this.symptom_array != []) {
-            this.symptom = [];
-        }
-        
+        this.symptom_array = [];
+
         var collection = this.database.collection('application_database');
         var user_doc = collection.doc(this.username);
         var user_doc_collection = user_doc.collection(`${this.username}_symptoms`);
         var snapshot = await user_doc_collection.get();
         
-        var temp_array = [];
-        // used for implementation of drop down menu data in symptom tracker 
-        async function getstuff() {
-            snapshot.forEach((doc) => {
-                temp_array.push(doc.data().symptom); 
-            });  
-        }
-
-        getstuff()
-            .then(()=>{
-                var set = new Set(temp_array)
-                setTimeout(()=>{
-                    set.forEach(word => this.symptom_array.push({key: word}))
-                }, 500)
-            })
-            .catch(()=>{
-
-            }) 
-       
-        
+        var temp_array = [];        
+        snapshot.forEach((doc) => {
+            temp_array.push(doc.data().symptom); 
+        });  
+        var set = new Set(temp_array);
+        set.forEach(word => this.symptom_array.push({symptom: word}))
+        console.log(this.symptom_array)
     }
 
     /**

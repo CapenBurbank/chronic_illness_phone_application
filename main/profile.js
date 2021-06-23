@@ -24,11 +24,22 @@ export default class ProfilePage extends React.Component {
         this.openSymptomLoggerModal= this.openSymptomLoggerModal.bind(this);
         this.hideSymptomLoggerModal= this.hideSymptomLoggerModal.bind(this);
         this.returnState = this.returnState.bind(this);
+        this.updateAll = this.updateAll.bind(this);
+        this.updateCustomLoggedSymptoms = this.updateCustomLoggedSymptoms.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => ({
         title: 'Home',
     });
+
+    updateAll() {
+        this.forceUpdate()
+    }
+
+    updateCustomLoggedSymptoms() {
+        return user_DB_class.symptom_array;
+        
+    }
 
     /**
      * when invoked, will clear user_DB_class information, and navigate back to login screen/ sign up screen
@@ -162,7 +173,15 @@ export default class ProfilePage extends React.Component {
                                         }
                                     ])}
                                     onPress={()=> {
-                                        this.openSymptomLoggerModal();
+                                        user_DB_class.get_Symptom_List()
+                                            .then(()=> {
+                                                this.openSymptomLoggerModal();
+                                                this.updateAll();
+                                            })
+                                            .catch(()=> {
+
+                                            })
+                                            
                                     }}>
                                 
                                     <Ionicons name='add-circle' size={100} color='teal' />
@@ -304,7 +323,7 @@ export default class ProfilePage extends React.Component {
                     </View>
                     {
                         this.state.showSymptomLoggerModal &&
-                        <Symptom_Logger hideSymptomLoggerModal={this.hideSymptomLoggerModal} openSymptomLoggerModal={this.openSymptomLoggerModal} returnState={this.returnState} />
+                        <Symptom_Logger updateCustomLoggedSymptoms={this.updateCustomLoggedSymptoms} hideSymptomLoggerModal={this.hideSymptomLoggerModal} openSymptomLoggerModal={this.openSymptomLoggerModal} returnState={this.returnState} forceAnUpdate={this.updateAll} />
                     }
                 
                 </LinearGradient>  

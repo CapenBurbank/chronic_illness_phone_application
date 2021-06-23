@@ -40,8 +40,6 @@ var common_Symptoms = [
     {key: "Cognitive Issues"},
 ];
 
-var my_Symptoms = user_DB_class.symptom_array;
-
 export default class Symptom_Logger extends React.Component {
     constructor(props) {
         super(props);
@@ -53,7 +51,7 @@ export default class Symptom_Logger extends React.Component {
             // prop inherited from parent node 
             showSymptomLoggerModal: this.props.returnState(), 
             search: "Search...",
-            user_my_Symptoms: my_Symptoms,
+            user_my_Symptoms: this.props.updateCustomLoggedSymptoms(),
             ex_common_Symptoms: common_Symptoms,
             frequentList: false,
             commonList: false,
@@ -190,7 +188,7 @@ export default class Symptom_Logger extends React.Component {
 
     filterSymptoms(text) {
 
-        var customList = my_Symptoms.filter(({key: word}) => word.startsWith(text));
+        var customList = this.state.user_my_Symptoms.filter(({key: word}) => word.startsWith(text));
 
         var commonList = common_Symptoms.filter(({key: word}) => word.startsWith(text));
 
@@ -207,9 +205,8 @@ export default class Symptom_Logger extends React.Component {
     }
 
     resetSymptomLists() {
-        user_DB_class.symptom_array = [];
         this.setState({
-            user_my_Symptoms: my_Symptoms,
+            user_my_Symptoms: this.props.updateCustomLoggedSymptoms(),
             ex_common_Symptoms: common_Symptoms
         })
     }
@@ -220,24 +217,18 @@ export default class Symptom_Logger extends React.Component {
 
     resetState() {
         userDate_And_Symptom_Handler.setCurrentDateAndTime();
-
-        user_DB_class.get_Symptom_List()
-            .then(()=>{
-                this.setState({
-                    notes: "Any notes...?",
-                    severity: 1,
-                    modalBool: this.props.returnState(),
-                    modalBool2: false,
-                    date: `${userDate_And_Symptom_Handler.month}/${userDate_And_Symptom_Handler.day}/${userDate_And_Symptom_Handler.year}`,
-                    user_my_Symptoms: user_DB_class.symptom_array,
-                    enter_Symptom: 'New symptom...?'
-                });
-                this.closeScreen();
+        this.setState({
+            notes: "Any notes...?",
+            severity: 1,
+            modalBool: this.props.returnState(),
+            modalBool2: false,
+            date: `${userDate_And_Symptom_Handler.month}/${userDate_And_Symptom_Handler.day}/${userDate_And_Symptom_Handler.year}`,
+            user_my_Symptoms: this.props.updateCustomLoggedSymptoms(),
+            enter_Symptom: 'New symptom...?'
+        });
+        this.closeScreen();
                 
-            })
-            .catch(()=>{
-
-            })
+           
     }
 
     /**
@@ -410,8 +401,6 @@ export default class Symptom_Logger extends React.Component {
                                             onFocus={()=>{
                                                 this.setState({
                                                     search: "",
-                                                    user_my_Symptoms: my_Symptoms,
-                                                    ex_common_Symptoms: common_Symptoms,
                                                 })
                                             }}
                                             ref={input => this.input = input}
@@ -492,7 +481,7 @@ export default class Symptom_Logger extends React.Component {
                                                         
                                                     ]}
                                                     onPress={()=> {
-                                                        userDate_And_Symptom_Handler.symptom = item.key;
+                                                        userDate_And_Symptom_Handler.symptom = item.symptom;
                                                         // open second modal 
                                                         this.showModalList2();
                                                         console.log(userDate_And_Symptom_Handler.symptom);
@@ -501,7 +490,7 @@ export default class Symptom_Logger extends React.Component {
                                                 
                                                     <Text 
                                                         style={styles.list}>
-                                                        {item.key}
+                                                        {item.symptom}
                                                     </Text>
                                                 </Pressable>
                                             );
@@ -624,7 +613,8 @@ export default class Symptom_Logger extends React.Component {
                                 backgroundColor: 'transparent'
                             }}
                             >
-                                <Text style={[styles.h2, 
+                                <Text 
+                                    style={[styles.h2, 
                                         {
                                             padding: 40,
                                             color: "teal",
@@ -654,12 +644,12 @@ export default class Symptom_Logger extends React.Component {
                                         style={styles.modalSymptomTracker_container}
                                         >
                                         <TextInput
-                                                style={styles.modalSymptomTracker_textInput}
-                                                onChangeText={(text)=>{
-                                                    this.format_Date_If_Custom(text);
+                                            style={styles.modalSymptomTracker_textInput}
+                                            onChangeText={(text)=>{
+                                                this.format_Date_If_Custom(text);
 
-                                                }}
-                                                value={this.state.date}
+                                            }}
+                                            value={this.state.date}
                                             />
                                     </View>  
                                 </View> 
@@ -761,6 +751,7 @@ export default class Symptom_Logger extends React.Component {
                                                         userDate_And_Symptom_Handler.clearData();
                                                         this.resetSymptomLists();
                                                         this.resetState();
+                                                        this.props.forceAnUpdate();
                                                     },1000)
                                                     
                                                     

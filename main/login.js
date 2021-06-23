@@ -82,14 +82,7 @@ export default class LoginPage extends React.Component {
         })
         setTimeout(() => {
             if (user_DB_class.token) {
-                user_DB_class.get_Symptom_List()
-                    .then(()=> {
-                        this.navigateToProfile();
-                    })
-                    .catch(()=> {
-                        // no error handling implemented yet 
-                    })
-                
+                this.navigateToProfile();
             }
             else if (!user_DB_class.token) {
                 Alert.alert('Invalid Username/Password');
